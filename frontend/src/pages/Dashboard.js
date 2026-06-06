@@ -9,10 +9,10 @@ function Dashboard() {
   const [tasks, setTasks] = useState([]);
   const [editTask, setEditTask] = useState(null);
 
-  useEffect(() => {
+ useEffect(() => {
     if (!localStorage.getItem("token")) navigate("/");
     fetchTasks();
-  }, []);
+  }, [navigate]);
 
   const fetchTasks = async () => {
     try {

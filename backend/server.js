@@ -13,7 +13,7 @@ const taskRoutes = require("./routes/taskRoutes");
 const app = express();
 
 app.use(cors({
-  origin: "https://task-manager-tuhu.vercel.app" // replace with your actual Vercel URL
+  origin: "https://task-manager-tuhu-fbj89lyl9-radhikadudams-projects.vercel.app/" // replace with your actual Vercel URL
 }));
 app.use(express.json());
 

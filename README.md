@@ -1,78 +1,64 @@
-# 🚀 Task Management Web Application
+# TaskTable 📋
 
-A full-stack **Task Management Application** built using the **MERN Stack (MongoDB, Express.js, React.js, Node.js)**. The application provides secure user authentication and allows users to efficiently manage their daily tasks with complete CRUD functionality.
+A full-stack **Task Management Application** built with the **MERN Stack**. Supports secure authentication and full task CRUD with a clean, responsive dark UI.
+
+🌐 **Live Demo:** [task-manager-tuhu.vercel.app](https://task-manager-tuhu.vercel.app)
+🔧 **Backend API:** [task-manager-injh.onrender.com](https://task-manager-injh.onrender.com)
+📁 **GitHub:** [github.com/radhikadudam/task-manager](https://github.com/radhikadudam/task-manager)
 
 ---
 
-## 📌 Features
+## ✨ Features
 
-### 🔐 Authentication & Security
-
-* User Registration with encrypted passwords using **bcryptjs**
-* Secure Login using **JWT (JSON Web Token)**
-* Protected routes accessible only to authenticated users
-* Persistent user sessions using local storage
+### 🔐 Authentication
+- User registration with **bcryptjs** encrypted passwords
+- Secure login with **JWT tokens**
+- Protected routes for authenticated users only
+- Persistent sessions via local storage
 
 ### ✅ Task Management
+- Create tasks with title and description
+- Edit and update existing tasks
+- Delete tasks
+- Toggle tasks between **Pending** and **Completed**
+- Each user sees only their own tasks
 
-* Create new tasks with title and description
-* View all personal tasks
-* Update existing tasks
-* Delete tasks
-* Mark tasks as **Completed** or **Pending**
-* Users can only access and manage their own tasks
-
-### 🎨 User Interface
-
-* Responsive design for desktop and mobile devices
-* Clean and intuitive dashboard
-* Form validation and error handling
-* Real-time updates after task operations
+### 🎨 UI & Design
+- Dark themed UI with violet accents
+- Fully responsive — works on mobile and desktop
+- Animated task cards with hover interactions
+- Live stats: Total / Pending / Completed task counts
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Frontend
-
-* React.js
-* React Router DOM
-* Axios
-* JavaScript (ES6+)
-* CSS / Tailwind CSS
-
-### Backend
-
-* Node.js
-* Express.js
-* JWT Authentication
-* bcryptjs
-* CORS
-* dotenv
-
-### Database
-
-* MongoDB
-* Mongoose ODM
-
-### Development Tools
-
-* Git & GitHub
-* Nodemon
-* Postman
+| Layer | Technology |
+|---|---|
+| Frontend | React.js, Tailwind CSS, Axios, React Router DOM |
+| Backend | Node.js, Express.js, JWT, bcryptjs, CORS |
+| Database | MongoDB Atlas, Mongoose |
+| Deployment | Vercel (frontend), Render (backend) |
+| Dev Tools | Git, GitHub, Nodemon, Postman |
 
 ---
 
 ## 📂 Project Structure
 
-```text
+```
 task-manager/
 │
 ├── frontend/
 │   ├── src/
 │   │   ├── components/
+│   │   │   ├── TaskForm.js
+│   │   │   └── TaskList.js
 │   │   ├── pages/
+│   │   │   ├── Login.js
+│   │   │   ├── Register.js
+│   │   │   └── Dashboard.js
 │   │   ├── services/
+│   │   │   └── api.js
 │   │   ├── App.js
 │   │   └── index.js
 │   └── package.json
@@ -80,10 +66,11 @@ task-manager/
 ├── backend/
 │   ├── models/
 │   ├── routes/
+│   │   ├── authRoutes.js
+│   │   └── taskRoutes.js
 │   ├── middleware/
-│   ├── controllers/
+│   │   └── authMiddleware.js
 │   ├── server.js
-│   ├── .env
 │   └── package.json
 │
 └── README.md
@@ -91,49 +78,37 @@ task-manager/
 
 ---
 
-## ⚙️ Installation & Setup
+## ⚙️ Local Setup
 
 ### 1️⃣ Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/task-manager.git
-
+git clone https://github.com/radhikadudam/task-manager.git
 cd task-manager
 ```
-
----
 
 ### 2️⃣ Backend Setup
 
 ```bash
 cd backend
-
 npm install
 ```
 
-Create a `.env` file inside the backend folder:
+Create a `.env` file inside the `backend` folder:
 
 ```env
 PORT=5000
-
 MONGO_URI=your_mongodb_connection_string
-
 JWT_SECRET=your_secret_key
 ```
 
-Start the backend server:
+Start the backend:
 
 ```bash
 npm run dev
 ```
 
-Backend runs on:
-
-```text
-http://localhost:5000
-```
-
----
+Runs on: `http://localhost:5000`
 
 ### 3️⃣ Frontend Setup
 
@@ -141,90 +116,78 @@ Open a new terminal:
 
 ```bash
 cd frontend
-
 npm install
-
 npm start
 ```
 
-Frontend runs on:
+Runs on: `http://localhost:3000`
 
-```text
-http://localhost:3000
-```
+> Make sure the `baseURL` in `src/services/api.js` points to `http://localhost:5000/api` for local development.
 
 ---
 
 ## 🔗 API Endpoints
 
-### Authentication
+### Auth Routes
 
-| Method | Endpoint             | Description         |
-| ------ | -------------------- | ------------------- |
-| POST   | `/api/auth/register` | Register a new user |
-| POST   | `/api/auth/login`    | Authenticate user   |
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| POST | `/api/auth/register` | Register a new user |
+| POST | `/api/auth/login` | Login and get JWT token |
 
-### Tasks
+### Task Routes *(JWT required)*
 
-| Method | Endpoint                | Description        |
-| ------ | ----------------------- | ------------------ |
-| GET    | `/api/tasks`            | Fetch all tasks    |
-| POST   | `/api/tasks`            | Create a new task  |
-| GET    | `/api/tasks/:id`        | Fetch single task  |
-| PUT    | `/api/tasks/:id`        | Update task        |
-| DELETE | `/api/tasks/:id`        | Delete task        |
-| PATCH  | `/api/tasks/:id/toggle` | Toggle task status |
-
-> **Note:** Task routes require JWT authentication.
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | `/api/tasks` | Get all tasks for logged-in user |
+| POST | `/api/tasks` | Create a new task |
+| GET | `/api/tasks/:id` | Get a single task |
+| PUT | `/api/tasks/:id` | Update a task |
+| DELETE | `/api/tasks/:id` | Delete a task |
+| PATCH | `/api/tasks/:id/toggle` | Toggle task status |
 
 ---
 
 ## 🔒 Authentication Flow
 
-1. User registers using email and password.
-2. Password is securely hashed using **bcryptjs**.
-3. Upon successful login, a **JWT token** is generated.
-4. The token is stored in local storage.
-5. Protected routes validate the token before granting access.
+1. User registers → password hashed with **bcryptjs**
+2. User logs in → server returns a **JWT token**
+3. Token stored in **localStorage**
+4. Every API request sends the token in the `Authorization` header
+5. Backend middleware validates the token before processing requests
 
 ---
 
+## 🚀 Deployment
 
+| Service | Platform | URL |
+|---------|----------|-----|
+| Frontend | Vercel | [task-manager-tuhu.vercel.app](https://task-manager-tuhu.vercel.app) |
+| Backend | Render | [task-manager-injh.onrender.com](https://task-manager-injh.onrender.com) |
+| Database | MongoDB Atlas | Cloud hosted |
 
-## 🚀 Future Enhancements
-
-* Task Search Functionality
-* Task Filtering (Completed/Pending)
-* Pagination
-* Due Dates and Priority Levels
-* Email Notifications
-* Drag-and-Drop Task Management
-* Deployment using Vercel, Render, and MongoDB Atlas
+> ⚠️ The backend is hosted on Render's free tier and may take **30–60 seconds** to wake up on the first request after inactivity.
 
 ---
 
-## 🎯 Learning Outcomes
+## 🔮 Future Enhancements
 
-This project demonstrates practical experience in:
-
-* Full-Stack Web Development
-* RESTful API Design
-* Authentication & Authorization
-* MongoDB Database Management
-* React State Management
-* Secure Password Handling
-* Frontend and Backend Integration
+- [ ] Task search and filtering
+- [ ] Due dates and priority levels
+- [ ] Drag-and-drop reordering
+- [ ] Email notifications
+- [ ] Pagination
+- [ ] Dark/Light mode toggle
 
 ---
 
 ## 👩‍💻 Author
 
 **Radhika Dudam**
-
-* GitHub: https://github.com/radhikadudam
+- GitHub: [github.com/radhikadudam](https://github.com/radhikadudam)
 
 ---
 
 ## 📄 License
 
-This project is developed for educational and internship assessment purposes.
+This project is developed for educational and portfolio purposes.
